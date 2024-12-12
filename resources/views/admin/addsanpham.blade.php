@@ -198,7 +198,7 @@ Thêm sản phẩm
               <script>CKEDITOR.replace('description');</script>
             </div>
             <button class="btn btn-save" type="submit">Lưu lại</button>
-            <a class="btn btn-cancel" href="table-data-product.html">Hủy bỏ</a>
+            <a class="btn btn-cancel" href="{{route('admin.sanpham')}}">Hủy bỏ</a>
           </form>
 
         </div>

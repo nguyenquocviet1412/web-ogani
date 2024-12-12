@@ -31,7 +31,7 @@
                     <span class="badge bg-danger">Đã hủy</span>
                 @endif
             </p>
-            <p><strong>Tổng tiền:</strong> {{ number_format($order->Total_money, 0, ',', '.') }} $</p>
+            <p><strong>Tổng tiền:</strong> {{ number_format($order->Total_money, 2, ',', '.') }} $</p>
         </div>
     </div>
 
@@ -56,8 +56,8 @@
                             <td>{{ $index + 1 }}</td>
                             <td>{{ $detail->product->name }}</td>
                             <td>{{ $detail->Number_of_products }}</td>
-                            <td>{{ number_format($detail->price, 0, ',', '.') }} $</td>
-                            <td>{{ number_format($detail->Total_money, 0, ',', '.') }} $</td>
+                            <td>{{ number_format($detail->price, 2, ',', '.') }} $</td>
+                            <td>{{ number_format($detail->Total_money, 2, ',', '.') }} $</td>
                         </tr>
                     @endforeach
                 </tbody>
