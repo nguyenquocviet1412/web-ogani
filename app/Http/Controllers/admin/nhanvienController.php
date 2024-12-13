@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Models\roles;
 use App\Models\User;
+use App\Models\userbans;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -20,16 +21,27 @@ class nhanvienController extends Controller
         return view('admin.nhanvien', compact('listNhanVien'));
     }
     //Xóa nhân viên
-    public function deleteNhanVien(User $user){
-        //xóa hình ảnh cũ
-        if($user->avatar){
-            Storage::delete($user->avatar);
-        }
-        //xóa tài khoản
-        $user->delete();
+    public function deleteNhanVien(User $user)
+{
+    // Chuyển thông tin của nhân viên sang bảng userban
+    userbans::create([
+        'name' => $user->Fullname,
+        'Role_id' => $user->Role_id,
+        'note' => 'Tạm khóa tài khoản để xem xét vào ngày ' . now(),
+        'active' => 0, // Đặt trạng thái không hoạt động
+    ]);
 
-        return redirect()->route('admin.nhanvien')->with('message', 'Bài viết đã được xóa thành công!');
+    // Xóa hình ảnh cũ nếu có
+    if ($user->avatar) {
+        Storage::delete($user->avatar);
     }
+
+    // Xóa tài khoản khỏi bảng users
+    $user->delete();
+
+    return redirect()->route('admin.nhanvien')->with('message', 'Nhân viên đã được xóa thành công!');
+}
+
     //Trang thêm mới nhân viên
     public function addnhanvien(){
         //Lấy danh sách role

@@ -4,6 +4,7 @@ use App\Http\Controllers\admin\AdminController;
 use App\Http\Controllers\admin\donhangController;
 use App\Http\Controllers\admin\khachhangController;
 use App\Http\Controllers\admin\nhanvienController;
+use App\Http\Controllers\admin\noiboController;
 use App\Http\Controllers\admin\productController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\client\ClientController;
@@ -123,6 +124,14 @@ Route::middleware([Authenticate::class,CheckAuth::class])->group(function(){
         Route::delete('/donhang/{id}', [donhangController::class, 'destroy'])->name('donhang.destroy');
         Route::get('/donhang/{id}/edit', [donhangController::class, 'edit'])->name('donhang.edit');
         Route::put('/donhang/{id}', [donhangController::class, 'update'])->name('donhang.update');
+    //Nội bộ
+        Route::get('/noibo', [noiboController::class,'noibo'])->name('admin.noibo');
+        Route::delete('/noibo/{id}', [noiboController::class,'destroy'])->name('userbans.destroy');
+        Route::get('/noibo/edit/{id}', [noiboController::class,'edit'])->name('userbans.edit');
+        Route::put('/noibo/edit/{id}', [noiboController::class,'update'])->name('userbans.update');
+        Route::get('/noibo/create', [noiboController::class, 'create'])->name('userbans.create');
+        Route::post('/noibo', [noiboController::class, 'store'])->name('userbans.store');
+
 
 
 });

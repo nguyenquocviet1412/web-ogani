@@ -51,13 +51,22 @@
       <div class="col-md-6 p-5 bg-white">
         <h2 class="text-center mb-4">Đăng ký</h2>
         <!-- Form -->
-        <form action="" method="POST" enctype="multipart/form-data">
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+        <form action="{{route('postRegister')}}" method="POST" enctype="multipart/form-data">
             @csrf
             <input type="text" class="form-control mb-3" name="Fullname" placeholder="Họ và tên của bạn" required>
 
           <div class="tab-content mb-3">
             <div class="tab-pane fade show active" id="email" role="tabpanel">
-              <input type="email" class="form-control mb-3" placeholder="Email của bạn" required>
+              <input type="email" name="email" class="form-control mb-3" placeholder="Email của bạn" required>
             </div>
           </div>
           <input type="password" name="password" class="form-control mb-3" placeholder="Mật khẩu" required>
