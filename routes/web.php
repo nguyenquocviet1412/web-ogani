@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\admin\AdminController;
+use App\Http\Controllers\admin\doanhthuController;
 use App\Http\Controllers\admin\donhangController;
 use App\Http\Controllers\admin\khachhangController;
 use App\Http\Controllers\admin\nhanvienController;
@@ -140,6 +141,8 @@ Route::middleware([Authenticate::class,CheckAuth::class])->group(function(){
     Route::put('/salaries/{salary}', [salariesController::class, 'update'])->name('salaries.update'); // Cập nhật bảng lương
     Route::delete('/salaries/{salary}', [salariesController::class, 'destroy'])->name('salaries.destroy'); // Xóa bảng lương
 
+    //Doanh thu
+    Route::get('/doanhthu', [doanhthuController::class, 'index'])->name('doanhthu.index'); // Danh sách doanh thu
 
 });
 });
