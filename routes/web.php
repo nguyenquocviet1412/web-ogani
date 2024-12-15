@@ -6,6 +6,7 @@ use App\Http\Controllers\admin\khachhangController;
 use App\Http\Controllers\admin\nhanvienController;
 use App\Http\Controllers\admin\noiboController;
 use App\Http\Controllers\admin\productController;
+use App\Http\Controllers\admin\salariesController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\client\ClientController;
 use App\Http\Middleware\Authenticate;
@@ -131,7 +132,13 @@ Route::middleware([Authenticate::class,CheckAuth::class])->group(function(){
         Route::put('/noibo/edit/{id}', [noiboController::class,'update'])->name('userbans.update');
         Route::get('/noibo/create', [noiboController::class, 'create'])->name('userbans.create');
         Route::post('/noibo', [noiboController::class, 'store'])->name('userbans.store');
-
+    // Quản lý bảng lương
+    Route::get('/salaries', [salariesController::class, 'index'])->name('salaries.index'); // Danh sách bảng kê lương
+    Route::get('/salaries/create', [salariesController::class, 'create'])->name('salaries.create'); // Form thêm bảng lương
+    Route::post('/salaries', [salariesController::class, 'store'])->name('salaries.store'); // Xử lý thêm bảng lương
+    Route::get('/salaries/{salary}/edit', [salariesController::class, 'edit'])->name('salaries.edit'); // Form sửa bảng lương
+    Route::put('/salaries/{salary}', [salariesController::class, 'update'])->name('salaries.update'); // Cập nhật bảng lương
+    Route::delete('/salaries/{salary}', [salariesController::class, 'destroy'])->name('salaries.destroy'); // Xóa bảng lương
 
 
 });

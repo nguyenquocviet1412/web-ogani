@@ -48,4 +48,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+    public function salaries()
+{
+    return $this->hasOne(salaries::class, 'id_user');
+}
 }

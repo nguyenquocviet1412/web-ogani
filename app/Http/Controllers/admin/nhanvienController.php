@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\roles;
+use App\Models\salaries;
 use App\Models\User;
 use App\Models\userbans;
 use Illuminate\Http\Request;
@@ -50,17 +51,6 @@ class nhanvienController extends Controller
     }
     //Thêm mới nhân viên
     public function storenhanvien(Request $request){
-        //validate tài khoản
-        // $data = $request->validate( [
-        //     'Fullname' =>'required|min:3|max:100',
-        //     'email' =>'required|email',
-        //     'address' =>'',
-        //     'Phone_number'=>'',
-        //     'password' => 'required|min:5|max:32',
-        //     'role_id' =>'required',
-        //     'avatar' => 'nullable|image',
-        // ]);
-
         $data =$request->except('avatar');
 
         //khi chưa có hình ảnh
@@ -75,7 +65,23 @@ class nhanvienController extends Controller
 
         //Insert data
         // dd($data);
-        User::create($data);
+        $user = User::create($data);
+
+        //Insert salary data
+        $salary = 0;
+        if ($user->Role_id == 3) {
+            $salary = 5000000;
+        } elseif ($user->Role_id == 1) {
+            $salary = 10000000;
+        }
+        salaries::create([
+            'id_user' => $user->id,
+            'Role_id' => $user->Role_id,
+            'salary' => $salary,
+            'salary_deduction' => 0,
+            'bonus' => 0,
+            'active' => 0,
+        ]);
 
         return redirect()->route('admin.nhanvien')->with('message', 'Tài khoản đã được thêm thành công!');
     }
@@ -103,8 +109,27 @@ class nhanvienController extends Controller
         //Đưa đường dẫn hình vào data
         $data['avatar'] = $path;
 
-        //Update data
-        $user->update($data);
+        //Update user data
+    $oldRoleId = $user->Role_id;
+    $user->update($data);
+
+    //Update salary data if Role_id changes
+    if ($oldRoleId != $user->Role_id) {
+        $salary = 0;
+        if ($user->Role_id == 3) {
+            $salary = 5000000;
+        } elseif ($user->Role_id == 1) {
+            $salary = 10000000;
+        }
+
+        $salaryRecord = salaries::where('id_user', $user->id)->first();
+        if ($salaryRecord) {
+            $salaryRecord->update([
+                'Role_id' => $user->Role_id,
+                'salary' => $salary,
+            ]);
+        }
+    }
 
         return redirect()->route('admin.nhanvien')->with('message', 'Tài khoản đã được cập nhật thành công!');
     }
